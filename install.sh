@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-INSTALL_SH_VERSION="0.0.1"
+INSTALL_SH_VERSION="0.0.2"
 INSTALL_SH_CONF_DIR=${HOME}/.install.sh
 
 function install.sh {
@@ -45,7 +45,8 @@ function _installsh_help {
 function _install_project {
   local cmd=$1;
   local args=${@:2};
-  echo "Command: ${cmd} with args ${args}"
+  local url=${INSTALL_SH_URL:-'http://install.opensource.sh'}
+  sh <(curl -sL ${url}/${cmd}) $args
 }
 
 function _installsh_version {
