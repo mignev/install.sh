@@ -1,7 +1,9 @@
 #!/usr/bin/env bash
 
-INSTALL_SH_VERSION="0.0.2"
+INSTALL_SH_VERSION="0.0.3"
 INSTALL_SH_CONF_DIR=${HOME}/.install.sh
+PKGSH_FILE="pkgsh.json"
+JSON_PARSER=${INSTALL_SH_CONF_DIR}/tools/jq
 
 function install.sh {
   local cmd=$1;
@@ -9,7 +11,12 @@ function install.sh {
   # Show help info if call install.sh
   # without any arguments
   if [ -z "$cmd" ]; then
-      _installsh_help;
+      if [ -f "$PKGSH_FILE" ]; then
+        _installsh_install_packages;
+      else
+        _installsh_help;
+      fi
+
       return 0;
   fi
 
@@ -42,6 +49,16 @@ function _installsh_help {
   echo "usage: install.sh <command>"
 }
 
+function _installsh_install_packages {
+  local packages=$(cat $PKGSH_FILE |$JSON_PARSER .packages[])
+
+  for package in $packages
+  do
+      _install_project package;
+  done
+
+}
+
 function _install_project {
   local cmd=$1;
   local args=${@:2};
@@ -55,12 +72,11 @@ function _installsh_version {
 }
 
 function _installsh_selfupdate {
-  local repo_version=$(curl -s https://raw.github.com/mignev/install.sh/master/install.sh |grep '^INSTALL_SH_VERSION='| awk -F\" '{print $(NF-1)}')
+  local repo_version=$(curl -s curl -s https://raw.githubusercontent.com/mignev/install.sh/master/install.sh |grep '^INSTALL_SH_VERSION='| awk -F\" '{print $(NF-1)}')
   local my_installation_version=$INSTALL_SH_VERSION;
   if [ "$repo_version" != "$my_installation_version" ]; then
-    git clone https://github.com/mignev/install.sh.git ~/install.sh
     rm -rf ~/.install.sh
-    mv ~/install.sh ~/.install.sh
+    _install_project mignev/install.sh
     source ~/.install.sh/install.sh
   else
     echo
