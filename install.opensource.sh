@@ -35,7 +35,7 @@ else
   install_sh_download_dir=install.sh-$repo_version
   mv $install_sh_download_dir ~/.install.sh
 
-  echo -e "\nsource ~/.install.sh/install.sh" >> ~/.bashrc
+  printf "\nsource ~/.install.sh/install.sh" >> ~/.bashrc
   os=`uname`
   __install_jq $os
 fi
