@@ -63,7 +63,7 @@ function _install_project {
   local cmd=$1;
   local args=${@:2};
   local url=${INSTALL_SH_URL:-'http://install.opensource.sh'}
-  sh <(curl -sL ${url}/${cmd}) $args
+  bash <(curl -sL ${url}/${cmd}) $args
 }
 
 function _installsh_version {
