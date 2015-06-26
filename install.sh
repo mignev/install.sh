@@ -54,7 +54,8 @@ function _installsh_install_packages {
 
   for package in $packages
   do
-      _install_project package;
+      local pkg=$(echo $package | sed 's/\"//g')
+      _install_project $pkg;
   done
 
 }
