@@ -73,7 +73,7 @@ function _installsh_version {
 }
 
 function _installsh_selfupdate {
-  local repo_version=$(curl -s curl -s https://raw.githubusercontent.com/mignev/install.sh/master/install.sh |grep '^INSTALL_SH_VERSION='| awk -F\" '{print $(NF-1)}')
+  local repo_version=$(curl -s https://raw.githubusercontent.com/mignev/install.sh/master/install.sh |grep '^INSTALL_SH_VERSION='| awk -F\" '{print $(NF-1)}')
   local my_installation_version=$INSTALL_SH_VERSION;
   if [ "$repo_version" != "$my_installation_version" ]; then
     rm -rf ~/.install.sh
