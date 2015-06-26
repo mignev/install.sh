@@ -77,7 +77,7 @@ function _installsh_selfupdate {
   local my_installation_version=$INSTALL_SH_VERSION;
   if [ "$repo_version" != "$my_installation_version" ]; then
     rm -rf ~/.install.sh
-    _install_project mignev/install.sh
+    _install_project mignev/install.sh --without-bashrc-update
     source ~/.install.sh/install.sh
   else
     echo

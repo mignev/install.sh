@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+args=$@;
 
 function __install_jq {
   local dist=$1
@@ -35,7 +36,10 @@ else
   install_sh_download_dir=install.sh-$repo_version
   mv $install_sh_download_dir ~/.install.sh
 
-  printf "\nsource ~/.install.sh/install.sh" >> ~/.bashrc
+  if [ -z "$(echo $args| grep 'without-bashrc-update')" ]; then
+    printf "\nsource ~/.install.sh/install.sh" >> ~/.bashrc
+  fi
+
   os=`uname`
   __install_jq $os
 fi
